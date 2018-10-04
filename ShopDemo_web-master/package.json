@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "shop_demo",
   "scripts": {
-    "start": "webpack-dev-server --mode development",
-    "build": "webpack --mode production"
+    "start": "webpack-dev-server --define process.env.NODE_ENV='\"production\"' ",
+    "build": "webpack --mode production --define process.env.NODE_ENV='\"production\"'"
   },
   "author": "pham ngoc van",
   "license": "ISC",

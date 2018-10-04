@@ -10,7 +10,7 @@ class OrderPage extends Component {
     }
   };
   componentDidMount() {
-    return axios.get("http://localhost:8001/order/lists")
+    return axios.get("http://demo2.trieu.pro/order/lists")
       .then((res) => {
         if (res.data.data) {
           let total = 0;
