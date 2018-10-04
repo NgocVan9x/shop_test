@@ -84,7 +84,7 @@ module.exports = {
     index: './src/index.jsx',
   },
   output: {
-    filename: '[name].bundle.js',
+    filename: '[name].bundle.js?t='+ new Date().getTime(),
     path: path.resolve(__dirname, 'dist'),
   },
   optimization: {
