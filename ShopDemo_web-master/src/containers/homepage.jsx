@@ -24,7 +24,11 @@ class HomePage extends Component {
   }
 
   goToCart = () => {
-    this.props.history.push('/cart');
+    if(this.props.user){
+      this.props.history.push('/cart');
+    }else{
+      alert("please login first")
+    }
   }
 
   addToCart = (products_id)=>() =>{
