@@ -1,0 +1,55 @@
+{
+  "name": "apis",
+  "version": "5.1.1",
+  "description": "apis demo",
+  "author": "kyber team",
+  "license": "MIT",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "./node_modules/.bin/nodemon  app.js",
+    "start_next": "pm2 start app.json",
+    "test": "nyc mocha --timeout=3000 --exit",
+    "lint": "eslint \"**/*.js\""
+  },
+  "dependencies": {
+    "async": "^2.6.1",
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "cc-checkit": "^1.0.2",
+    "chalk": "^2.4.1",
+    "defaults": "^1.0.3",
+    "dotenv": "^6.0.0",
+    "errorhandler": "^1.5.0",
+    "express": "^4.16.3",
+    "express-rate-limit": "^3.1.0",
+    "express-session": "^1.15.6",
+    "express-status-monitor": "^1.1.5",
+    "express-validator": "^5.3.0",
+    "lodash": "^4.17.10",
+    "morgan": "^1.9.0",
+    "mysql": "^2.16.0",
+    "mysql2": "^1.6.1",
+    "popper.js": "^1.14.4",
+    "query-string": "^6.1.0",
+    "request": "^2.88.0",
+    "sequelize": "^4.39.0",
+    "sequelize-auto": "^0.4.29",
+    "validator": "^10.5.0"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "eslint": "^5.3.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-chai-friendly": "^0.4.1",
+    "eslint-plugin-import": "^2.14.0",
+    "mocha": "^5.2.0",
+    "nodemon": "^1.18.4",
+	"sequelize": "^4.39.0",
+    "nyc": "^13.0.1",
+    "supertest": "^3.1.0"
+  },
+  "engines": {
+    "node": ">=8.11.3",
+    "npm": ">=5.6.0"
+  }
+}
