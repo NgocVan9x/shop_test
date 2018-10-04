@@ -11,7 +11,7 @@ class HomePage extends Component {
     }
   };
   componentDidMount() {
-    axios.get("http://localhost:8001/products/lists")
+    axios.get("http://demo2.trieu.pro/products/lists")
       .then((res) => {
         if(res.data.data)
         this.setState({
@@ -29,7 +29,7 @@ class HomePage extends Component {
 
   addToCart = (products_id)=>() =>{
     if(this.props.user){
-     return axios.post("http://localhost:8001/carts/create",{
+     return axios.post("http://demo2.trieu.pro/carts/create",{
         users_id: this.props.user.id,
         products_id:products_id
       })

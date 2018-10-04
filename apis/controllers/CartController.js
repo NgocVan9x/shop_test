@@ -64,21 +64,22 @@ const CartController = {
   },
   handleUpdateCart: async (req, res) => {
     const [err, params] = new Checkit({
-      carts_id: ['integer', 'required'],
+      carts: ['array', 'required'],
     }).validateSync(req.body);
     const isError = req.body.isError;
     if (isError || err) {
       return res.send(new Errors.ParamError(err));
     }
     const response = {}
-    await db.carts.findById(params.carts_id).then( async cart => {
-      if (cart) {
-        cart.destroy().then(cart =>console.log(cart.data))
-        response.message="susscces"
-      }else{
-        error = "carts not found"
-      }
-    });
+    const carts = params.carts
+    let error = null;
+    for(var index in carts){
+      await db.carts.findById(carts[index].id).then(async cart=>{
+        if(cart){
+          await cart.update({quantity:carts[index].quantity, odered:1});
+        }
+      })
+    }
     if(error){
       return res.send(new Errors.ServerError(error));
     }

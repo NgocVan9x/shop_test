@@ -35,7 +35,7 @@ export function logout() {
 export function login(credentials, callback) {
     return function (dispatch) {
         dispatch(loginRequest());
-        return axios.post('http://localhost:8001/users/login',
+        return axios.post('http://demo2.trieu.pro/users/login',
                     {
                         email: credentials.email,
                         password: credentials.password

@@ -11,16 +11,16 @@ class CartPage extends Component {
             total: 0
         }
     };
-    onloadData() {
-        if(this.props.user){
-            axios.get("http://localhost:8001/carts/listsByUser", {
+    async onloadData() {
+        if (this.props.user) {
+            await axios.get("http://demo2.trieu.pro/carts/listsByUser", {
                 params: {
                     user_id: this.props.user.id,
                 }
             })
                 .then((res) => {
+                    let total = 0;
                     if (res.data.data) {
-                        let total = 0;
                         for (var order in res.data.data) {
                             total += res.data.data[order].product.price * res.data.data[order].quantity;
                         }
@@ -28,8 +28,12 @@ class CartPage extends Component {
                             carts: res.data.data,
                             total: total
                         })
+                    } else {
+                        this.setState({
+                            carts: [],
+                            total: total
+                        })
                     }
-    
                 }).catch(error => console.log(error));
         }
     }
@@ -42,7 +46,7 @@ class CartPage extends Component {
     }
 
     onDeleteCarts = (carts_id) => async () => {
-        await axios.delete("http://localhost:8001/carts/deleteByUser",
+        await axios.delete("http://demo2.trieu.pro/carts/deleteByUser",
             {
                 data: {
                     carts_id: carts_id,
@@ -56,32 +60,33 @@ class CartPage extends Component {
     }
     onChange = (event) => {
         const carts = this.state.carts;
-        carts.forEach(function(val,index) { 
-            if(val.id == parseInt(event.target.name)){
+        carts.forEach(function (val, index) {
+            if (val.id == parseInt(event.target.name)) {
                 val.quantity = parseInt(event.target.value);
             }
-         })  
-         return this.setState({ carts: carts });
+        })
+        return this.setState({ carts: carts });
     }
-    updateCasts = async () =>{
-        await axios.put("http://localhost:8001/carts/update",
-            {
-                data: {
-                    carts_id: carts_id,
-                }
-            })
-            .then((res) => {
-                console.log(res)
-            }).catch(error => alert("fails"));
-
-        return this.onloadData();
+    updateCasts = async () => {
+        if (this.state.carts.length > 0) {
+            await axios.put("http://demo2.trieu.pro/carts/update", {
+                carts: this.state.carts,
+            }
+            )
+                .then(async (res) => {
+                    console.log(res)
+                }).catch(error => alert("fails"));
+            await this.onloadData();
+            this.props.history.push('/order');
+        }else{
+            this.props.history.push('/');
+        }
     }
     render() {
         const carts = this.state.carts.map(cart => <tr key={cart.id}>
             <td>{cart.product.name}</td>
             <td>{cart.product.price}$</td>
-            {/* <td>{cart.quantity}</td> */}
-            <td><input onChange = {this.onChange} name={cart.id} type="number" min="1" value={cart.quantity}></input></td>
+            <td><input onChange={this.onChange} name={cart.id} type="number" min="1" value={cart.quantity}></input></td>
             <td>{cart.product.price * cart.quantity}</td>
             <td><button onClick={this.onDeleteCarts(cart.id)}>renmove</button></td>
         </tr>)
@@ -126,12 +131,12 @@ function mapStateToProps(state) {
     return {
         user: state.auth.user,
     };
-  }
-  
-  // Get actions and pass them as props to to BlogContainer
-  //  > now BlogContainer has this.props.getAllBlog
-  function matchDispatchToProps(dispatch) {
+}
+
+// Get actions and pass them as props to to BlogContainer
+//  > now BlogContainer has this.props.getAllBlog
+function matchDispatchToProps(dispatch) {
     return bindActionCreators({
     }, dispatch);
-  }
-  export default connect(mapStateToProps, null)(CartPage);
+}
+export default connect(mapStateToProps, null)(CartPage);

@@ -10,7 +10,7 @@ class OrderPage extends Component {
     }
   };
   componentDidMount() {
-    axios.get("http://localhost:8001/order/lists")
+    return axios.get("http://localhost:8001/order/lists")
       .then((res) => {
         if (res.data.data) {
           let total = 0;
@@ -38,7 +38,7 @@ class OrderPage extends Component {
     return (
       <div className="wrapper">
         <div className="desc">
-          <h1>Login</h1>
+          <h1>Order</h1>
           <button className="btn-login" onClick={this.goToBack}>Back</button>
         </div>
         <div className="content">
