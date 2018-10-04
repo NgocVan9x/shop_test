@@ -41,7 +41,9 @@ class HomePage extends Component {
         console.log(res)
       }).catch(error => console.log(error));
     }
-   
+    else{
+      alert("please login first")
+    }
   }
   render() {
     const product = this.state.products.map(product =>
@@ -63,7 +65,7 @@ class HomePage extends Component {
       <div className="wrapper">
         <div>
           <h1 className="desc"> product list</h1>
-          <button className="btn-login" onClick={this.goToLogin}>login</button>
+          {this.props.user ? <p>Login success</p> : <button className="btn-login" onClick={this.goToLogin}>login</button>}
           <button className="btn-login" onClick={this.goToCart}>cart</button>
         </div>
         <div className="content">

@@ -2,13 +2,16 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 class CartPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
             carts: [],
-            total: 0
+            total: 0,
+            typeSortName: "desc",
+            typeSortTotal: "desc"
         }
     };
     async onloadData() {
@@ -24,8 +27,9 @@ class CartPage extends Component {
                         for (var order in res.data.data) {
                             total += res.data.data[order].product.price * res.data.data[order].quantity;
                         }
+                        const carts = _.orderBy(res.data.data, [c => c.product.name], [this.state.typeSortName]);
                         this.setState({
-                            carts: res.data.data,
+                            carts: carts,
                             total: total
                         })
                     } else {
@@ -82,6 +86,28 @@ class CartPage extends Component {
             this.props.history.push('/');
         }
     }
+    sortByName = () => {
+        let typeSortName = this.state.typeSortName;
+        if(typeSortName == "desc"){
+            typeSortName = "asc"
+        }else{
+            typeSortName = "desc"
+        }
+        let carts = this.state.carts;
+        carts = _.orderBy(carts, [c => c.product.name], [typeSortName])
+        return this.setState({ carts: carts ,typeSortName:typeSortName});
+    }
+    sortByTotal= ()=>{
+        let typeSortTotal = this.state.typeSortTotal;
+        if(typeSortTotal == "desc"){
+            typeSortTotal = "asc"
+        }else{
+            typeSortTotal = "desc"
+        }
+        let carts = this.state.carts;
+        carts = _.orderBy(carts, [c => c.product.price * c.quantity], [typeSortTotal])
+        return this.setState({ carts: carts ,typeSortTotal:typeSortTotal});
+    }
     render() {
         const carts = this.state.carts.map(cart => <tr key={cart.id}>
             <td>{cart.product.name}</td>
@@ -101,10 +127,10 @@ class CartPage extends Component {
                         <caption>Monthly savings</caption>
                         <thead>
                             <tr>
-                                <th>Item</th>
+                                <th onClick={this.sortByName}><a href="#"> Item</a></th>
                                 <th>price</th>
                                 <th>quatity</th>
-                                <th>total price</th>
+                                <th onClick={this.sortByTotal}><a href="#"> total price</a></th>
                                 <th></th>
                             </tr>
                         </thead>
