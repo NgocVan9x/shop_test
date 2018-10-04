@@ -22,7 +22,13 @@ class HomePage extends Component {
   goToLogin = () => {
     this.props.history.push('/login');
   }
-
+  goToOrder = () => {
+    if(this.props.user){
+      this.props.history.push('/order');
+    }else{
+      alert("please login first")
+    }
+  }
   goToCart = () => {
     if(this.props.user){
       this.props.history.push('/cart');
@@ -67,6 +73,7 @@ class HomePage extends Component {
           <h1 className="desc"> product list</h1>
           {this.props.user ? <p>Login success</p> : <button className="btn-login" onClick={this.goToLogin}>login</button>}
           <button className="btn-login" onClick={this.goToCart}>cart</button>
+          <button className="btn-login" onClick={this.goToOrder}>order</button>
         </div>
         <div className="content">
           <div className="product-grid product-grid--flexbox">
